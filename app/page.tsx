@@ -32,8 +32,8 @@ export default function Page() {
 
         </div>
         <div className="flex items-center gap-6 font-medium">
-          <Link href="#" className="text-gray-600 hover:text-emerald-600">Masuk</Link>
-          <Link href="#" className="bg-emerald-500 text-white px-5 py-2 rounded-full hover:bg-emerald-600 transition-colors">
+          <Link href="/login" className="text-gray-600 hover:text-emerald-600">Masuk</Link>
+          <Link href="/register" className="bg-emerald-500 text-white px-5 py-2 rounded-full hover:bg-emerald-600 transition-colors">
             Daftar Gratis
           </Link>
         </div>
@@ -61,7 +61,7 @@ export default function Page() {
           {[
             { value: "10,000+", label: "Paket Terkirim" },
             { value: "5,000+", label: "UMKM Bergabung" },
-            { value: "4.9/5", label: "Rating Pelanggan" },
+            { value: "4.8/5", label: "Rating Pelanggan" },
             { value: "98%", label: "On-Time Delivery" }
           ].map((stat, idx) => (
             <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100/50">
@@ -71,6 +71,8 @@ export default function Page() {
           ))}
         </div>
       </section>
+
+      {/* Duplicate HERO SECTION removed */}
 
       {/* 3. FITUR SECTION */}
       <section className="px-8 py-20 max-w-6xl mx-auto">
@@ -105,47 +107,50 @@ export default function Page() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Paket Reguler */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-200 hover:border-emerald-500 transition-colors shadow-sm text-center">
-            <h3 className="text-xl font-bold text-[#1a6b46] mb-4">Paket Reguler</h3>
-            <div className="text-4xl font-extrabold text-emerald-500 mb-2">Rp 15.000</div>
-            <p className="text-gray-500 text-sm mb-6">0-5 kg • 2-3 hari</p>
-            <ul className="text-left space-y-4 mb-8 text-gray-600">
-              <li className="flex gap-2"><span>✅</span> Tracking real-time</li>
-              <li className="flex gap-2"><span>✅</span> Asuransi paket</li>
-              <li className="flex gap-2"><span>✅</span> Customer support 24/7</li>
-            </ul>
-            <button className="w-full bg-emerald-500 text-white py-3 rounded-xl font-medium hover:bg-emerald-600">Pilih Paket</button>
-          </div>
+              {/* Paket Reguler */}
+              <div className="bg-white p-8 rounded-3xl border border-gray-200 hover:border-emerald-500 transition-colors shadow-sm text-center">
+                <h3 className="text-xl font-bold text-[#1a6b46] mb-2">Paket Reguler</h3>
+                <p className="text-gray-500 text-sm mb-1 font-medium">Mulai dari</p>
+                <div className="text-4xl font-extrabold text-emerald-500 mb-2">Rp 15.000</div>
+                <p className="text-gray-500 text-sm mb-6">1-5 kg • 2-3 hari</p>
+                <ul className="text-left space-y-4 mb-8 text-gray-600">
+                  <li className="flex gap-2"><span>✅</span> Tracking real-time</li>
+                  <li className="flex gap-2"><span>✅</span> Asuransi paket</li>
+                  <li className="flex gap-2"><span>✅</span> Customer support 24/7</li>
+                </ul>
+                <button className="w-full bg-emerald-500 text-white py-3 rounded-xl font-medium hover:bg-emerald-600">Pilih Paket</button>
+              </div>
 
-          {/* Paket Express */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-200 hover:border-emerald-500 transition-colors shadow-sm text-center">
-            <h3 className="text-xl font-bold text-[#1a6b46] mb-4">Paket Express</h3>
-            <div className="text-4xl font-extrabold text-emerald-500 mb-2">Rp 25.000</div>
-            <p className="text-gray-500 text-sm mb-6">0-10 kg • 1 hari</p>
-            <ul className="text-left space-y-4 mb-8 text-gray-600">
-              <li className="flex gap-2"><span>✅</span> Prioritas pengiriman</li>
-              <li className="flex gap-2"><span>✅</span> Tracking real-time</li>
-              <li className="flex gap-2"><span>✅</span> Asuransi paket</li>
-              <li className="flex gap-2"><span>✅</span> Same day delivery</li>
-            </ul>
-            <button className="w-full bg-emerald-500 text-white py-3 rounded-xl font-medium hover:bg-emerald-600">Pilih Paket</button>
-          </div>
+              {/* Paket Express */}
+              <div className="bg-white p-8 rounded-3xl border border-gray-200 hover:border-emerald-500 transition-colors shadow-sm text-center">
+                <h3 className="text-xl font-bold text-[#1a6b46] mb-2">Paket Express</h3>
+                <p className="text-gray-500 text-sm mb-1 font-medium">Mulai dari</p>
+                <div className="text-4xl font-extrabold text-emerald-500 mb-2">Rp 25.000</div>
+                <p className="text-gray-500 text-sm mb-6">1-10 kg • 1 hari</p>
+                <ul className="text-left space-y-4 mb-8 text-gray-600">
+                  <li className="flex gap-2"><span>✅</span> Prioritas pengiriman</li>
+                  <li className="flex gap-2"><span>✅</span> Tracking real-time</li>
+                  <li className="flex gap-2"><span>✅</span> Asuransi paket</li>
+                  <li className="flex gap-2"><span>✅</span> Same day delivery</li>
+                </ul>
+                <button className="w-full bg-emerald-500 text-white py-3 rounded-xl font-medium hover:bg-emerald-600">Pilih Paket</button>
+              </div>
 
-          {/* Paket Cargo */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-200 hover:border-emerald-500 transition-colors shadow-sm text-center">
-            <h3 className="text-xl font-bold text-[#1a6b46] mb-4">Paket Cargo</h3>
-            <div className="text-4xl font-extrabold text-emerald-500 mb-2">Rp 50.000</div>
-            <p className="text-gray-500 text-sm mb-6">10-50 kg • 3-5 hari</p>
-            <ul className="text-left space-y-4 mb-8 text-gray-600">
-              <li className="flex gap-2"><span>✅</span> Untuk barang besar</li>
-              <li className="flex gap-2"><span>✅</span> Tracking real-time</li>
-              <li className="flex gap-2"><span>✅</span> Asuransi penuh</li>
-              <li className="flex gap-2"><span>✅</span> Handling khusus</li>
-            </ul>
-            <button className="w-full bg-emerald-500 text-white py-3 rounded-xl font-medium hover:bg-emerald-600">Pilih Paket</button>
-          </div>
-        </div>
+              {/* Paket Cargo */}
+              <div className="bg-white p-8 rounded-3xl border border-gray-200 hover:border-emerald-500 transition-colors shadow-sm text-center">
+                <h3 className="text-xl font-bold text-[#1a6b46] mb-2">Paket Cargo</h3>
+                <p className="text-gray-500 text-sm mb-1 font-medium">Mulai dari</p>
+                <div className="text-4xl font-extrabold text-emerald-500 mb-2">Rp 50.000</div>
+                <p className="text-gray-500 text-sm mb-6">11-50 kg • 3-5 hari</p>
+                <ul className="text-left space-y-4 mb-8 text-gray-600">
+                  <li className="flex gap-2"><span>✅</span> Untuk barang besar</li>
+                  <li className="flex gap-2"><span>✅</span> Tracking real-time</li>
+                  <li className="flex gap-2"><span>✅</span> Asuransi penuh</li>
+                  <li className="flex gap-2"><span>✅</span> Handling khusus</li>
+                </ul>
+                <button className="w-full bg-emerald-500 text-white py-3 rounded-xl font-medium hover:bg-emerald-600">Pilih Paket</button>
+              </div>
+            </div>
       </section>
 
       {/* 5. CALL TO ACTION & FOOTER */}
@@ -153,9 +158,9 @@ export default function Page() {
         <h2 className="text-4xl font-bold text-white mb-4">Siap Tingkatkan Bisnis Anda?</h2>
         <p className="text-emerald-50 text-lg mb-8">Bergabung dengan ribuan UMKM yang sudah mempercayai kami!</p>
         <div className="flex justify-center gap-4">
-          <button className="bg-[#e2f7eb] text-[#1a6b46] px-6 py-3 rounded-full font-semibold hover:bg-white transition-colors">
+          <Link href="/register" className="bg-[#e2f7eb] text-[#1a6b46] px-6 py-3 rounded-full font-semibold hover:bg-white transition-colors">
             Daftar Gratis Sekarang
-          </button>
+          </Link>
           <button className="bg-white/20 text-white px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:bg-white/30 transition-colors">
             ✉️ Hubungi Kami
           </button>
@@ -176,7 +181,7 @@ export default function Page() {
           <h3 className="text-xl font-bold text-[#1a6b46]">KirimAja</h3>
         </div>
         <p className="text-gray-500 mb-2">Solusi Pengiriman UMKM Terpercaya</p>
-        <p className="text-gray-400 text-sm">© 2026 KirimAja . All rights reserved.</p>
+        <p className="text-gray-400 text-sm">© 2024 CargoKu Lite. All rights reserved.</p>
       </footer>
 
     </main>
