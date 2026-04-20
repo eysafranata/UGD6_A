@@ -20,6 +20,41 @@ const FormSchema = z.object({
   path: ["confirmPassword"],
 });
 
+export async function authenticateUser(formData: FormData) {
+  const emailOrName = formData.get('username') as string;
+  const password = formData.get('password') as string;
+
+  try {
+    const users = await sql`
+      SELECT * FROM users 
+      WHERE email = ${emailOrName} OR name = ${emailOrName}
+    `;
+
+    if (users.length === 0) {
+      return { error: 'Username atau password salah' };
+    }
+
+    const user = users[0];
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return { error: 'Username atau password salah' };
+    }
+
+    return { 
+      success: true, 
+      user: { 
+        id: user.id, 
+        name: user.name, 
+        role: user.role 
+      } 
+    };
+
+  } catch (error) {
+    return { error: 'Database Error: Gagal melakukan autentikasi.' };
+  }
+}
+
 export async function registerUser(formData: FormData) {
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;

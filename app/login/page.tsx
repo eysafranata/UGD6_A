@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Poppins } from 'next/font/google';
+import { authenticateUser } from '@/app/lib/actions';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -44,20 +45,26 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      if (username === 'admin' && password === 'admin123') {
+    if (!validate()) return;
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    const result = await authenticateUser(formData);
+
+    if (result.success && result.user) {
+      if (result.user.role === 'Admin') {
         router.push('/dashboard-admin');
-      } else if (username === 'eysa' && password === 'tiara1710') {
-        // Success login
-        router.push('/dashboard');
       } else {
-        // Simulate general error for demonstration matching Image 4
-        setErrors({
-          global: "Username atau password salah"
-        });
+        router.push('/dashboard');
       }
+    } else {
+      setErrors({
+        global: result.error || "Username atau password salah"
+      });
     }
   };
 
