@@ -163,3 +163,35 @@ export async function getUserStats() {
     return { totalCustomers: 0 };
   }
 }
+
+export async function createPackage(formData: FormData) {
+  const sender_name = formData.get('sender_name') as string;
+  const receiver_name = formData.get('receiver_name') as string;
+  const origin = formData.get('origin') as string;
+  const destination = formData.get('destination') as string;
+  const weight = parseFloat(formData.get('weight') as string);
+  const type = formData.get('type') as string;
+  const payment_method = formData.get('payment_method') as string;
+
+  if (!sender_name || !receiver_name || !origin || !destination || !weight) {
+    return { error: 'Mohon lengkapi semua data!' };
+  }
+
+  // Generate Resi otomatis CKL + 10 digit angka
+  const resi = `CKL${Date.now().toString().slice(-7)}${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
+  const total_price = weight * 10000;
+
+  try {
+    const result = await sql`
+      INSERT INTO packages (resi, sender_name, receiver_name, origin, destination, weight, type, payment_method, total_price)
+      VALUES (${resi}, ${sender_name}, ${receiver_name}, ${origin}, ${destination}, ${weight}, ${type}, ${payment_method}, ${total_price})
+      RETURNING *
+    `;
+    
+    revalidatePath('/dashboard-admin');
+    return { success: true, package: result[0] };
+  } catch (error) {
+    console.error('Database Error:', error);
+    return { error: 'Gagal simpan paket ke database.' };
+  }
+}

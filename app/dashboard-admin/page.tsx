@@ -257,7 +257,7 @@ export default function DashboardAdmin() {
           <h2 className="text-[#0c5132] font-extrabold text-sm md:text-lg mb-4 md:mb-6">Aksi Cepat</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {/* Tambah Paket */}
-            <Link href="#" className="bg-[#eaf9eb] rounded-[20px] flex flex-col items-center justify-center p-5 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-transparent hover:border-green-100">
+            <Link href="/dashboard-admin/add-package" className="bg-[#eaf9eb] rounded-[20px] flex flex-col items-center justify-center p-5 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-transparent hover:border-green-100">
               <div className="w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-[#24a173] flex items-center justify-center mb-3 text-[#24a173]">
                 <CubeIcon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
               </div>
