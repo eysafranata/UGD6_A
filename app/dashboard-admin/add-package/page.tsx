@@ -232,8 +232,7 @@ export default function AddPackagePage() {
                   className="w-full px-5 py-4 bg-[#f8faf9] border-2 border-transparent rounded-2xl font-medium text-[#0c5132] focus:ring-4 focus:ring-emerald-50 outline-none appearance-none cursor-pointer"
                 >
                   <option value="Tunai">Tunai</option>
-                  <option value="Transfer">Transfer</option>
-                  <option value="E-Wallet">E-Wallet</option>
+                  <option value="Qris">Qris</option>
                 </select>
               </div>
             </div>
@@ -263,6 +262,20 @@ export default function AddPackagePage() {
                     <span className="font-extrabold text-[#0c5132] text-lg">Total Harga:</span>
                     <span className="font-extrabold text-[#24a173] text-2xl md:text-3xl">Rp {totalPrice.toLocaleString('id-ID')}</span>
                  </div>
+
+                 {/* QRIS Scan Section */}
+                 {formData.payment_method === 'Qris' && (
+                   <div className="mt-8 flex flex-col items-center animate-in zoom-in duration-500">
+                      <div className="bg-white p-4 rounded-3xl shadow-sm border border-emerald-50 mb-3">
+                         <img 
+                           src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=KirimAja_Payment" 
+                           alt="QRIS Barcode" 
+                           className="w-40 h-40 md:w-48 md:h-48 object-contain"
+                         />
+                      </div>
+                      <span className="font-bold text-[#0c5132] text-sm md:text-base">Scan Barcode</span>
+                   </div>
+                 )}
               </div>
             )}
 
