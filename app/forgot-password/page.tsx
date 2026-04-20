@@ -27,7 +27,7 @@ export default function ForgotPasswordPage() {
     setSuccessToast('');
 
     if (!emailOrUsername.trim()) {
-      setErrorToast('Email/username tidak boleh kosong.');
+      setErrorToast('Email/Username tidak boleh kosong.');
       return;
     }
 
