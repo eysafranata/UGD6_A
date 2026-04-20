@@ -47,7 +47,9 @@ export default function LoginPage() {
   const handleSignIn = (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      if (username === 'eysa' && password === 'tiara1710') {
+      if (username === 'admin' && password === 'admin123') {
+        router.push('/dashboard-admin');
+      } else if (username === 'eysa' && password === 'tiara1710') {
         // Success login
         router.push('/dashboard');
       } else {

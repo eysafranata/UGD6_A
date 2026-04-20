@@ -77,7 +77,7 @@ export default function Page() {
       {/* 3. FITUR SECTION */}
       <section className="px-8 py-20 max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-[#1a6b46] mb-3">Kenapa Pilih CargoKu Lite?</h2>
+          <h2 className="text-4xl font-bold text-[#1a6b46] mb-3">Kenapa Pilih KirimAja?</h2>
           <p className="text-gray-500 text-lg">Kami memahami kebutuhan UMKM Indonesia</p>
         </div>
 

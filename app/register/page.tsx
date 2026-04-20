@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Poppins } from 'next/font/google';
+import { registerUser } from '@/app/lib/actions';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -11,14 +13,18 @@ const poppins = Poppins({
 });
 
 export default function RegisterPage() {
-  const [username, setUsername] = useState('');
+  const router = useRouter();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const [errors, setErrors] = useState<{
-    username?: string;
+    name?: string;
     email?: string;
+    phone?: string;
     password?: string;
   }>({});
 
@@ -26,13 +32,18 @@ export default function RegisterPage() {
     let isValid = true;
     const newErrors: any = {};
 
-    if (!username.trim()) {
-      newErrors.username = "Nama lengkap harus diisi";
+    if (!name.trim()) {
+      newErrors.name = "Nama lengkap harus diisi";
       isValid = false;
     }
 
     if (!email.trim() || !email.includes('@')) {
       newErrors.email = "Email tidak valid atau belum diisi";
+      isValid = false;
+    }
+
+    if (!phone.trim()) {
+      newErrors.phone = "Nomor telepon harus diisi";
       isValid = false;
     }
 
@@ -45,9 +56,27 @@ export default function RegisterPage() {
     return isValid;
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    validate();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    formData.append('password', password);
+
+    try {
+      await registerUser(formData);
+    } catch (err: any) {
+      if (err.message === 'NEXT_REDIRECT') {
+          // Ignore redirect errors as they are expected
+          return;
+      }
+      setErrors({ ...errors, password: 'Gagal melakukan pendaftaran. Silakan coba lagi.' });
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -80,24 +109,25 @@ export default function RegisterPage() {
             {/* Username Field */}
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-                Username <span className="text-red-700">*</span>
+                Full Name <span className="text-red-700">*</span>
               </label>
               <input
                 type="text"
-                placeholder="Username"
-                value={username}
+                name="name"
+                placeholder="Full Name"
+                value={name}
                 onChange={(e) => {
-                  setUsername(e.target.value);
-                  setErrors({ ...errors, username: undefined });
+                  setName(e.target.value);
+                  setErrors({ ...errors, name: undefined });
                 }}
                 className={`w-full px-4 py-3 rounded-2xl outline-none border-2 ring-0 transition-colors ${
-                  errors.username 
+                  errors.name 
                     ? 'border-red-500 focus:border-red-500 text-red-900 placeholder-red-300' 
                     : 'border-transparent focus:border-white/50 text-gray-800'
                 } bg-[#f8fcf9] shadow-sm`}
               />
-              {errors.username && (
-                <p className="text-red-700 text-xs font-semibold mt-1.5 ml-1">{errors.username}</p>
+              {errors.name && (
+                <p className="text-red-700 text-xs font-semibold mt-1.5 ml-1">{errors.name}</p>
               )}
             </div>
 
@@ -108,6 +138,7 @@ export default function RegisterPage() {
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => {
@@ -122,6 +153,31 @@ export default function RegisterPage() {
               />
               {errors.email && (
                 <p className="text-red-700 text-xs font-semibold mt-1.5 ml-1">{errors.email}</p>
+              )}
+            </div>
+
+            {/* Phone Field */}
+            <div>
+              <label className="block text-sm font-semibold text-gray-900 mb-1.5">
+                Phone Number <span className="text-red-700">*</span>
+              </label>
+              <input
+                type="text"
+                name="phone"
+                placeholder="0812xxxx"
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  setErrors({ ...errors, phone: undefined });
+                }}
+                className={`w-full px-4 py-3 rounded-2xl outline-none border-2 ring-0 transition-colors ${
+                  errors.phone 
+                    ? 'border-red-500 focus:border-red-500 text-red-900 placeholder-red-300' 
+                    : 'border-transparent focus:border-white/50 text-gray-800'
+                } bg-[#f8fcf9] shadow-sm`}
+              />
+              {errors.phone && (
+                <p className="text-red-700 text-xs font-semibold mt-1.5 ml-1">{errors.phone}</p>
               )}
             </div>
 
@@ -173,9 +229,10 @@ export default function RegisterPage() {
 
             <button
               type="submit"
-              className="w-full bg-[#157f4e] text-white font-bold py-4 rounded-full hover:bg-[#116e42] transition-colors mt-6 shadow-md"
+              disabled={isSubmitting}
+              className={`w-full bg-[#157f4e] text-white font-bold py-4 rounded-full hover:bg-[#116e42] transition-colors mt-6 shadow-md ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              DAFTAR
+              {isSubmitting ? 'MEMPROSES...' : 'DAFTAR'}
             </button>
           </form>
 
