@@ -22,13 +22,13 @@ const FormSchema = z.object({
 });
 
 export async function authenticateUser(formData: FormData) {
-  const emailOrName = formData.get('username') as string;
+  const username = formData.get('username') as string;
   const password = formData.get('password') as string;
 
   try {
     const users = await sql`
       SELECT * FROM users 
-      WHERE LOWER(email) = LOWER(${emailOrName}) OR name = ${emailOrName}
+      WHERE LOWER(name) = LOWER(${username})
     `;
 
     if (users.length === 0) {

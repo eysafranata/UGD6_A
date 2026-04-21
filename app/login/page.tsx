@@ -27,7 +27,7 @@ export default function LoginPage() {
     const newErrors: any = {};
 
     if (!username.trim()) {
-      newErrors.username = "Username atau email harus diisi";
+      newErrors.username = "Username harus diisi";
       isValid = false;
     }
 
@@ -103,11 +103,11 @@ export default function LoginPage() {
           <form onSubmit={handleSignIn} className="space-y-5">
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-1.5">
-                Username or Email<span className="text-red-600">*</span>
+                Username<span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
-                placeholder="e.g bima@example.com"
+                placeholder="e.g bima"
                 value={username}
                 onChange={(e) => {
                   setUsername(e.target.value);
