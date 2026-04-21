@@ -227,7 +227,7 @@ export default function AddPackagePage() {
                   name="type"
                   value={formData.type}
                   onChange={handleInputChange}
-                  className="w-full px-5 py-4 bg-[#f8faf9] border-2 border-transparent rounded-2xl font-medium text-[#0c5132] focus:ring-4 focus:ring-emerald-50 outline-none appearance-none cursor-pointer"
+                  className="w-full px-5 py-4 bg-[#f8faf9] border-2 border-transparent rounded-2xl font-medium text-[#0c5132] focus:ring-4 focus:ring-emerald-50 outline-none cursor-pointer"
                 >
                   <option value="Reguler">Reguler</option>
                   <option value="Ekspres">Ekspres</option>
@@ -240,10 +240,10 @@ export default function AddPackagePage() {
                   name="payment_method"
                   value={formData.payment_method}
                   onChange={handleInputChange}
-                  className="w-full px-5 py-4 bg-[#f8faf9] border-2 border-transparent rounded-2xl font-medium text-[#0c5132] focus:ring-4 focus:ring-emerald-50 outline-none appearance-none cursor-pointer"
+                  className="w-full px-5 py-4 bg-[#f8faf9] border-2 border-transparent rounded-2xl font-medium text-[#0c5132] focus:ring-4 focus:ring-emerald-50 outline-none cursor-pointer"
                 >
                   <option value="Tunai">Tunai</option>
-                  <option value="Qris">Qris</option>
+                  <option value="QRIS">QRIS</option>
                 </select>
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function AddPackagePage() {
                  </div>
 
                  {/* QRIS Scan Section */}
-                 {formData.payment_method === 'Qris' && (
+                 {formData.payment_method === 'QRIS' && (
                    <div className="mt-8 flex flex-col items-center animate-in zoom-in duration-500">
                       <div className="bg-white p-4 rounded-3xl shadow-sm border border-emerald-50 mb-3">
                          <img 
