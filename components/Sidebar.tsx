@@ -12,6 +12,7 @@ import {
   ArrowLeftOnRectangleIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
+import { logoutUser } from '@/app/lib/actions';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -86,13 +87,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         {/* Footer (Logout) */}
         <div className="p-4 border-t border-gray-100">
-          <Link 
-            href="/login"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-[#d93025] hover:bg-red-50 transition-colors font-bold text-sm"
+          <button 
+            onClick={async () => {
+              await logoutUser();
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-[#d93025] hover:bg-red-50 transition-colors font-bold text-sm"
           >
             <ArrowLeftOnRectangleIcon className="w-5 h-5" />
             Keluar
-          </Link>
+          </button>
         </div>
       </div>
     </>

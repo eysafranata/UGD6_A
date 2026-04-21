@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Poppins } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -13,6 +13,7 @@ import {
   ClockIcon
 } from '@heroicons/react/24/outline';
 import Sidebar from '@/components/Sidebar';
+import { getCurrentUser } from '@/app/lib/actions';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -21,6 +22,17 @@ const poppins = Poppins({
 
 export default function Dashboard() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userName, setUserName] = useState('...');
+
+  useEffect(() => {
+    async function loadUser() {
+      const data = await getCurrentUser();
+      if (data) {
+        setUserName(data.name);
+      }
+    }
+    loadUser();
+  }, []);
 
   return (
     <div className={`min-h-screen bg-[#f4fcf7] pb-10 ${poppins.className}`}>
@@ -48,7 +60,7 @@ export default function Dashboard() {
             <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
 
             <div className="relative z-10 w-full max-w-screen-2xl mx-auto">
-              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 md:mb-3">Halo, Eysa! 👋</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 md:mb-3">Halo, {userName}! 👋</h1>
               <p className="text-emerald-50 text-[15px] md:text-lg mb-1.5 md:mb-2 font-medium">Selamat datang di KirimAja</p>
               <p className="text-emerald-100/90 text-[13px] md:text-base">Solusi pengiriman UMKM yang ramah dan terpercaya</p>
             </div>

@@ -17,7 +17,7 @@ import {
   LockClosedIcon
 } from '@heroicons/react/24/outline';
 import Sidebar from '@/components/Sidebar';
-import { updateProfile, changePassword } from '@/app/lib/actions';
+import { updateProfile, changePassword, getCurrentUser } from '@/app/lib/actions';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -28,13 +28,24 @@ export default function ProfilePage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-  const [user, setUser] = useState({
-    id: '410544b2-4001-4271-9855-fec4b6a6442a', // Mock ID
-    name: 'Lujisa',
-    email: 'lujisa@gmail.com',
-    phone: '081234567890',
-    role: 'Pelanggan'
+  const [user, setUser] = useState<any>({
+    id: '', 
+    name: 'Loading...', 
+    email: '', 
+    phone: '', 
+    role: ''
   });
+
+  useEffect(() => {
+    async function loadUser() {
+      const data = await getCurrentUser();
+      if (data) {
+        setUser(data);
+        setEditData(data);
+      }
+    }
+    loadUser();
+  }, []);
 
   const [editData, setEditData] = useState({ ...user });
   const [passwordData, setPasswordData] = useState({

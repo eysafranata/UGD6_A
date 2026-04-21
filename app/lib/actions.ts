@@ -4,6 +4,7 @@ import { z } from 'zod';
 import postgres from 'postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 import bcrypt from 'bcrypt';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
@@ -27,7 +28,7 @@ export async function authenticateUser(formData: FormData) {
   try {
     const users = await sql`
       SELECT * FROM users 
-      WHERE email = ${emailOrName} OR name = ${emailOrName}
+      WHERE LOWER(email) = LOWER(${emailOrName}) OR name = ${emailOrName}
     `;
 
     if (users.length === 0) {
@@ -40,6 +41,14 @@ export async function authenticateUser(formData: FormData) {
     if (!passwordMatch) {
       return { error: 'Username atau password salah' };
     }
+
+    const cookieStore = await cookies();
+    cookieStore.set('session_user_id', user.id, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+      path: '/',
+    });
 
     return { 
       success: true, 
@@ -64,12 +73,18 @@ export async function registerUser(formData: FormData) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
+    const existing = await sql`SELECT id FROM users WHERE LOWER(email) = LOWER(${email})`;
+    if (existing.length > 0) {
+      return { error: 'Email ini sudah terdaftar. Gunakan email lain.' };
+    }
+
     await sql`
       INSERT INTO users (name, email, password, phone, role)
       VALUES (${name}, ${email}, ${hashedPassword}, ${phone}, 'Pelanggan')
     `;
   } catch (error) {
-    return { message: 'Database Error: Failed to Register User.' };
+    console.error('Registration error:', error);
+    return { error: 'Terjadi kesalahan sistem saat mendaftar.' };
   }
 
   revalidatePath('/dashboard-admin');
@@ -161,6 +176,28 @@ export async function getUserStats() {
     return { totalCustomers: Number(data[0].count) };
   } catch (error) {
     return { totalCustomers: 0 };
+  }
+}
+
+export async function logoutUser() {
+  const cookieStore = await cookies();
+  cookieStore.delete('session_user_id');
+  redirect('/login');
+}
+
+export async function getCurrentUser() {
+  const cookieStore = await cookies();
+  const userId = cookieStore.get('session_user_id')?.value;
+
+  if (!userId) return null;
+
+  try {
+    const users = await sql`
+      SELECT id, name, email, role, phone FROM users WHERE id = ${userId}
+    `;
+    return users.length > 0 ? users[0] : null;
+  } catch (error) {
+    return null;
   }
 }
 

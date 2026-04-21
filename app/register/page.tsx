@@ -68,7 +68,11 @@ export default function RegisterPage() {
     formData.append('password', password);
 
     try {
-      await registerUser(formData);
+      const result = await registerUser(formData);
+      if (result && result.error) {
+        setErrors({ ...errors, password: result.error });
+        setIsSubmitting(false);
+      }
     } catch (err: any) {
       if (err.message === 'NEXT_REDIRECT') {
           // Ignore redirect errors as they are expected

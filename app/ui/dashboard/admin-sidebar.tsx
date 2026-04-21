@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
 import { 
   XMarkIcon, 
   Squares2X2Icon, 
@@ -9,6 +11,7 @@ import {
   ExclamationCircleIcon,
   ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline';
+import { getCurrentUser, logoutUser } from '@/app/lib/actions';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
@@ -20,6 +23,17 @@ interface AdminSidebarProps {
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
+  const [adminName, setAdminName] = useState('Admin');
+
+  useEffect(() => {
+    async function loadUser() {
+      const data = await getCurrentUser();
+      if (data) {
+        setAdminName(data.name);
+      }
+    }
+    loadUser();
+  }, []);
 
   const menuItems = [
     { name: 'Dashboard Admin', href: '/dashboard-admin', icon: Squares2X2Icon },
@@ -53,10 +67,10 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           
           <div className="flex items-center gap-4 mt-2">
             <div className="w-12 h-12 rounded-full bg-[#1b8555] flex items-center justify-center text-white font-bold text-xl shadow-sm">
-              A
+              {adminName.charAt(0)}
             </div>
             <div>
-              <h2 className="font-extrabold text-[#0c5132] text-sm leading-tight">Admin KirimAja</h2>
+              <h2 className="font-extrabold text-[#0c5132] text-sm leading-tight">{adminName}</h2>
               <p className="text-[11px] text-[#24a173] font-medium">Administrator</p>
             </div>
           </div>
@@ -84,13 +98,15 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           })}
 
           <div className="mt-4 pt-4 border-t border-gray-100/50">
-            <Link
-              href="/"
-              className="flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-red-500 hover:bg-red-50 transition-all duration-200 group"
+            <button
+              onClick={async () => {
+                await logoutUser();
+              }}
+              className="w-full flex items-center gap-3.5 px-4 py-3.5 rounded-xl text-red-500 hover:bg-red-50 transition-all duration-200 group"
             >
               <ArrowLeftOnRectangleIcon className="w-5 h-5 text-red-400 group-hover:text-red-500" strokeWidth={2} />
               <span className="text-[13px] font-bold">Keluar dari Admin</span>
-            </Link>
+            </button>
           </div>
         </nav>
 
