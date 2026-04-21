@@ -11,9 +11,12 @@ import {
   InboxIcon,
   BanknotesIcon,
   ScaleIcon,
-  ExclamationCircleIcon
+  ExclamationCircleIcon,
+  Bars3Icon,
+  CubeIcon
 } from '@heroicons/react/24/outline';
 import { createPackage } from '@/app/lib/actions';
+import AdminSidebar from '@/app/ui/dashboard/admin-sidebar';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -21,6 +24,7 @@ const poppins = Poppins({
 });
 
 export default function AddPackagePage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({
     sender_name: '',
     receiver_name: '',
@@ -89,14 +93,21 @@ export default function AddPackagePage() {
 
   return (
     <div className={`min-h-screen bg-[#f4fcf7] pb-20 ${poppins.className}`}>
+      <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       {/* Navbar Minimalist */}
       <nav className="flex items-center px-6 md:px-10 py-6 w-full bg-transparent sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <div className="bg-[#e6fce5] p-2 rounded-xl border border-emerald-100 shadow-sm">
-            <CheckCircleIcon className="w-6 h-6 text-[#1b8555] stroke-[2.5]" />
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="mr-5 text-[#24a173] hover:bg-[#e6fce5] p-2 rounded-lg transition-colors"
+        >
+          <Bars3Icon className="w-6 h-6" strokeWidth={2.5} />
+        </button>
+        <div className="flex items-center gap-3 flex-1">
+          <div className="bg-[#e6fce5] p-2 rounded-xl border border-emerald-100 shadow-sm flex items-center justify-center">
+            <CubeIcon className="w-6 h-6 text-[#1b8555] stroke-[2.5]" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl md:text-2xl font-extrabold text-[#0c5132] tracking-tight block leading-none">KirimAja</span>
+            <span className="text-xl md:text-2xl font-extrabold text-[#0c5132] tracking-tight block leading-none mb-0.5">KirimAja</span>
             <span className="text-[11px] md:text-xs text-[#24a173] font-bold uppercase tracking-wider block">Admin</span>
           </div>
         </div>

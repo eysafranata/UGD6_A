@@ -14,6 +14,7 @@ import {
   ExclamationCircleIcon
 } from '@heroicons/react/24/outline';
 import { getUserStats } from '@/app/lib/actions';
+import AdminSidebar from '@/app/ui/dashboard/admin-sidebar';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -44,6 +45,7 @@ function buildSmoothPath(data: any[], width: number, height: number, maxVal: num
 }
 
 export default function DashboardAdmin() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [totalCustomers, setTotalCustomers] = useState(3);
   const [chartData, setChartData] = useState([
     { time: new Date(2026, 3, 1), value: 12 },
@@ -87,9 +89,13 @@ export default function DashboardAdmin() {
   const fillData = `${pathData} L800,180 L0,180 Z`;
   return (
     <div className={`min-h-screen bg-[#f4fcf7] pb-10 ${poppins.className}`}>
+      <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       {/* Top Navbar */}
       <nav className="flex items-center px-6 md:px-10 py-4 w-full bg-[#f4fcf7] sticky top-0 z-50">
-        <button className="mr-5 text-[#24a173] hover:bg-[#e6fce5] p-2 rounded-lg transition-colors">
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="mr-5 text-[#24a173] hover:bg-[#e6fce5] p-2 rounded-lg transition-colors"
+        >
           <Bars3Icon className="w-6 h-6" strokeWidth={2.5} />
         </button>
         <div className="flex items-center gap-3 flex-1">
@@ -273,7 +279,7 @@ export default function DashboardAdmin() {
             </Link>
 
             {/* Laporan */}
-            <Link href="#" className="bg-[#effef1] rounded-[20px] flex flex-col items-center justify-center p-5 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-transparent hover:border-emerald-100">
+            <Link href="/dashboard-admin/laporan-kinerja" className="bg-[#effef1] rounded-[20px] flex flex-col items-center justify-center p-5 md:p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-md border border-transparent hover:border-emerald-100">
                <div className="w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-[#4dc567] flex items-center justify-center mb-3 text-[#4dc567]">
                 <ChartBarIcon className="w-5 h-5 md:w-6 md:h-6" strokeWidth={2} />
               </div>

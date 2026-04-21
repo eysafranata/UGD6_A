@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Poppins } from 'next/font/google';
 import Link from 'next/link';
 import {
@@ -12,6 +13,7 @@ import {
   ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 import { ChartBarIcon as ChartBarSolidIcon } from '@heroicons/react/24/solid';
+import AdminSidebar from '@/app/ui/dashboard/admin-sidebar';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -19,11 +21,16 @@ const poppins = Poppins({
 });
 
 export default function LaporanKinerja() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <div className={`min-h-screen bg-[#f4fcf7] pb-10 ${poppins.className}`}>
+      <AdminSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       {/* Top Navbar */}
       <nav className="flex items-center px-6 md:px-10 py-4 w-full bg-[#f4fcf7] sticky top-0 z-50">
-        <button className="mr-5 text-[#24a173] hover:bg-[#e6fce5] p-2 rounded-lg transition-colors">
+        <button 
+          onClick={() => setIsSidebarOpen(true)}
+          className="mr-5 text-[#24a173] hover:bg-[#e6fce5] p-2 rounded-lg transition-colors"
+        >
           <Bars3Icon className="w-6 h-6" strokeWidth={2.5} />
         </button>
         <div className="flex items-center gap-3 flex-1">
