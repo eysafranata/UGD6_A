@@ -148,7 +148,10 @@ export async function deleteUser(id: string) {
   revalidatePath('/dashboard-admin/users');
 }
 
-export async function fetchFilteredUsers(query: string) {
+const ITEMS_PER_PAGE = 6;
+
+export async function fetchFilteredUsers(query: string, currentPage: number = 1) {
+  const offset = (currentPage - 1) * ITEMS_PER_PAGE;
   try {
     const users = await sql`
       SELECT id, name, email, role, phone, created_at
@@ -158,6 +161,7 @@ export async function fetchFilteredUsers(query: string) {
         email ILIKE ${`%${query}%`} OR
         role ILIKE ${`%${query}%`}
       ORDER BY created_at DESC
+      LIMIT ${ITEMS_PER_PAGE} OFFSET ${offset}
     `;
     // Convert dates to strings for transport
     return users.map(u => ({
@@ -167,6 +171,24 @@ export async function fetchFilteredUsers(query: string) {
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch users.');
+  }
+}
+
+export async function fetchUsersPages(query: string) {
+  try {
+    const count = await sql`
+      SELECT COUNT(*)
+      FROM users
+      WHERE
+        name ILIKE ${`%${query}%`} OR
+        email ILIKE ${`%${query}%`} OR
+        role ILIKE ${`%${query}%`}
+    `;
+    const totalPages = Math.ceil(Number(count[0].count) / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch total number of users.');
   }
 }
 

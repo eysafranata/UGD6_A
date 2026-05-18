@@ -216,3 +216,30 @@ export function InvoicesTableSkeleton() {
     </div>
   );
 }
+
+export function UsersTableSkeleton() {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left border-collapse">
+        <thead>
+          <tr className="text-gray-400 text-xs uppercase tracking-widest font-bold">
+            <th className="px-8 py-5">Nama</th>
+            <th className="px-8 py-5">Email</th>
+            <th className="px-8 py-5">Peran</th>
+            <th className="px-8 py-5 text-center">Aksi</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-50">
+          {Array(6).fill(0).map((_, i) => (
+            <tr key={i} className="animate-pulse">
+              <td className="px-8 py-6"><div className="h-4 bg-gray-100 rounded w-32"></div></td>
+              <td className="px-8 py-6"><div className="h-4 bg-gray-100 rounded w-48"></div></td>
+              <td className="px-8 py-6"><div className="h-6 bg-gray-100 rounded-full w-16"></div></td>
+              <td className="px-8 py-6"><div className="h-4 bg-gray-100 rounded w-24 mx-auto"></div></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
